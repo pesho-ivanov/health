@@ -1,0 +1,476 @@
+Running Log
+
+-- Moscow
+
+03 May 2011
+	dist: 10km
+	duration: 52min
+	trace: Hashimin
+
+05 May 2011
+	dist: 10km
+	duration: 48min
+	trace: Hashimin
+
+07 May 2011
+	food: little
+	time: 19:20
+	duration: 1:25h
+	trace: bridge
+
+20 May 2011
+	time: 18:30
+	duration: 52min
+	trace: Hashimin
+	
+22 May
+	time: 17:00
+	duration: 52min
+	trace: Hashimin
+	
+23 May
+	time: 21:30
+	duration: 1:30h
+	trace: bridge
+
+25 May
+	time: 20:30
+	duration: 1:30h
+	trace: bridge(one way)
+
+26 May
+	time: 21:00
+	duration: 55min
+	trace: Hashimin
+
+29 May
+	time: 19:30
+	duration: 40min
+	trace: Hashimin (almost)
+
+30 May
+	time: 09:40
+	duration: 55min
+	trace: Hashimin
+	
+01 June
+	time: 08:15
+	duration: 52min
+	trace: Hashimin
+
+04 June
+	time: 21:30
+	duration: 2h + 45min break
+	trace: bridge
+
+10 June
+	time: 17:00
+	duration: 55min
+	trace: Hashimin
+	temp: 24C
+
+17 June
+	time: 15:00
+	duration: 55min
+	trace: Hashimin
+
+18 June
+	time: 21:45
+	duration: 2h
+	trace: Hashimin + Metrostation "Vor.Gory"
+
+19 June
+	time: 20:30
+	duration: 1h
+	trace: RAN
+
+22 June
+	time: 21:40
+	duration: 2.5h
+
+24 June
+	time: 21:40
+	duration: 2.5h
+
+25 June
+	time: 21:30
+	duration: 30min
+
+-- Bulgaria
+
+04 July
+	time: 00:00
+	duration: 13h18m
+	dist: 100km
+	run: ~60km
+	trace: around Vitosha
+
+09 July
+	time: 20:00
+	duration: 60min
+	trace: Plateau
+
+11 July
+	time: 20:30
+	trace: Kyoshkove-Osmara-StariyaGrad-Pametnika-Teatara 
+
+13 July
+	time: 20:30
+	duration: 1h15m
+	trace: typical with the bike (StariyaGrad-Pametnika)
+	info: 10m30sec (Cheshmata-Razklona)
+	30min (Dom-StariyaGrad)
+
+15 July
+	time: 20:30
+	duration: 70mini
+	trace: Teatyr-Pametnik-Temenuga-Pametnik-Teatyr
+	info: 11min (Mladejki Dom-Pametnik)
+
+18 July
+	time: 18:05
+	duration: 1h30min
+	trace: h.Shumen-Kyoshkove-Solomara-St.grad-Detelina-Groba na kursistite-Temenuga-Mechkata-h.Shumen
+
+19 July
+	time: 23:00
+	duration: 30min
+	trace: Teatara-Chupkata-Teatara
+
+21 July
+	type: bike
+	time: 19:30
+	duration: 70min
+	trace: Dom-Kyoshkove-St.Grad-Pametnika-St.Grad-Pametnika-Dom
+
+22 July
+	time: 21:00
+	duration: 70min
+	trace: Dom-Kyoshkove-St.Grad-Pametnik-Teatyr-Dom
+
+27 July
+	time: 8:30
+	duration: 60min
+	trace: Pametnik-Temenuga-St.Grad-Kyoshkove
+
+28 July
+	time: 8:30
+	duration: 30min
+	trace: Pametnik-Temenuda-St.Grad
+
+~30July-2August
+	Migraine
+
+9 August
+	time: 19:45
+	duration: 50min
+	trace: Madara
+
+17 August
+	duration: 60min
+	info: on bike
+	trace: Platoto
+
+19 August
+	time: 19:00
+	duration: 60min
+	trace: Platoto
+
+21 August
+	time 19:30
+	duration: 60min
+	trace: Platoto
+
+22 August
+	time: 19:30
+	duration: 60min
+	trace: Platoto
+
+23 August
+	time: 19:30
+	duration: 60min
+	info: on bike
+	trace: Platoto
+
+26 August
+	duration: 60min
+	info: on bike
+
+27 August
+	duration: 1h30m
+	trace: Platoto
+
+28 August
+	duration: 90min
+	info: on bike
+	trace: Platoto
+
+-- Moscow
+
+31 August
+	trace: Vorob.gory
+	duration: 1h
+
+1 September
+	trace: MSU park
+	duration: 30min
+	info: rain
+
+2 September
+
+-- high temperature
+	
+22 September
+	trace: park Yasenevo, MosMeridian
+	dist: 5km
+
+27 September
+	trace: MosMeridian
+	duration: 60min
+
+2 October
+	trace: Vorob. Gory
+	duration: 60min
+
+8 October
+	trace: Vorob. Gory
+	duration: 60min
+	info: with 0.5kg on each hand
+
+9 October
+	trace: Vorob. Gory
+	duration: 60min
+	info: +2x0.5
+
+10 October
+	trace: to Smotrovuyu i obratno
+	duration: 60min
+	info: 1200stairs; +2x0.5
+
+13 October
+	trace: Vorob. Gory
+	duration: 60min
+	info: +2x0.5
+	temp: 2C
+
+17 October
+	trace: Vorob.gory
+	time: 21:30
+	duration: 1h30min
+	temp: 5C
+
+22 October
+	trace: Vorob. gory
+	time: 18:00
+	duration: 90min
+
+23 October
+	trace: Vorob. gory
+	time: 9:00AM
+	duration: 90min
+	temp: 5C
+
+30 October
+	trace: Vorob. gory
+	time: 17:00
+	duration: 90min
+
+5 November
+	trace: to the Red Square
+	time: 23:00
+	duration: 90min
+	temp: -6
+	humidity: 63%
+	pressure: 763
+
+7 November
+	trace: Hashimina
+	time: 17:00
+	duration: 55min
+	temp: -2
+	humidity: 59%
+
+9 November
+	trace: Hashimina
+	time: 15:00
+	duration: 55min
+	temp: +1
+	info: rainy
+	info: 2x0.5kg
+
+14 November
+	trace: Hashimina
+	time: 16:15
+	duration: 55min
+	temp: +1
+	info: 2x0.5kg
+
+16 November
+	trace: Hashimina
+	time: 15:10
+	duration: 55min
+	temp: -3
+	info: 2x0.5kg
+
+20 November
+	trace: Vorob.gory
+	time: 17:00
+	duration: 1h30min
+	temp: -3
+	info: 2x0.5kg
+
+26 November
+	trace: Vorob.gory
+	time: 18:00
+	duration: 60min
+	temp: 0
+	info: 2x0.5kg
+
+27 November
+	trace: Vorob.gory
+	time: 17:00
+	duration: 1h45min
+	temp: 2
+	info: 2x0.5kg, snow
+
+28 November
+	trace: Smotrovaya
+	time: 16:00
+	duration: 45min
+	temp: 4
+	info: rain
+
+1 Dec
+	trace: Vorob.gory
+	time: 23:20
+	duration: 1h25min
+	temp: -3
+	info: snowy
+
+2 Dec
+	trace: Hashimina
+	time: 16:00
+	duration: 55min
+	temp: -2
+
+4 Dec
+	trace: Andreevskiy most - Kievskiy most
+	time: 18:00
+	duration: 1h40min
+	temp: 2
+	dist: 18km
+
+-- Faringite
+
+21 Dec
+	trace: Naberezhnaya - forth and back
+	time: 18:00
+	duration: 1h50h
+	temp: -3
+
+22 Dec
+	trace: Naberezhnaya
+	time: 21:00
+	duration: 1h15m
+	temp: -3
+	info: knee pain
+
+30 Dec 2011
+	place: Nizhnij Novgorod
+	time: 14:00
+	duration: 1h
+	info: knee pain continues
+
+7 Jan 2012
+	place: Vor.Gory
+	duration: 50min
+	time: 19:00
+	info: knee pain continues
+
+17 Jan 2012
+	duration: 30min
+	time: 16:00
+	info: knee pain continues
+
+-- rest from running + Glucosamine hydrochloride therapy
+-- +3kg (72kg)
+
+-- Bulgaria
+
+28-29 April
+	Rila Mountain trek
+
+2-11 May
+	Everyday bike and/or walking activities "1300 stairs to the Shumen monument"
+
+11 May
+	type: run
+	duration: 1h
+	info: soft knee pain
+
+12 May
+	type: bike
+	trace: Around Shumen Plateau
+	duration: 2.5h
+	lenght: ~50km
+
+13 May
+	type: bike
+	duration: 1h
+
+-- Moscow
+
+31 May
+	duration: 30min
+	type: run
+
+8 June
+	duration: 45min
+	type: run
+	info: boots + 8kg backpack + 1kg on hands
+
+13 June
+	duration: 30min
+	type: run
+	info: 1kg on hands, no knee pain
+
+-- Zurich
+
+19 July
+	duration: 1.5h
+	type: bike
+
+20 July
+	duration: 1h
+	type: bike
+
+-- 2013 Moscow
+17 Apr
+        duration: 1h
+        type: slow run
+
+18 Apr
+        duration: 1h
+        type: slow run
+
+20 Apr
+        duration: 1h
+        type: run
+        place: Hashimina
+
+24 Apr
+        duration: 45min
+        dist: 7-8km
+        type: run
+        place: Bol'shoi gazon
+
+26 Apr
+        duration: 20min
+        dist: 4km
+        type: run
+
+28 Apr
+        duration: 20min
+        dist: 4km
+        type: run
+
