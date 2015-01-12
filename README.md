@@ -8,6 +8,8 @@ Genetics
 
 My genetical data (SNPs) is taken by [23andme](https://www.23andme.com/) in 2012. It is also shared at [OpenSNP](https://opensnp.org/users/637).
 
+Browse my Promethease HTML report: [using HTMLpreview.github.io](http://htmlpreview.github.io/?https://github.com/petar-ivanov/health/blob/master/genetics/promethease-report-Petar-Ivanov/report.html).
+
 MRI
 ---
 
