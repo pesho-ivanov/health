@@ -1,0 +1,480 @@
+{% raw %}<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Promethease Report</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+<!--
+  <link rel="stylesheet" href="css/build.min.css" media="screen"> 
+  <link rel="stylesheet" href="css/print.min.css" media="print">
+-->
+
+  <link rel="stylesheet" href="https://s3.amazonaws.com/promethease-shared/data/v/9/css/build.min.css" media="screen">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/promethease-shared/data/v/9/css/print.min.css" media="print">
+
+</head>
+<!-- originally had doc-events as an attribute, which triggered GenosDirectives.js line 116, but causing a traceback-->
+<!--  doc-events -->
+<!-- <body ng-app="promethease" ng-controller="GenosController as main" doc-events ng-class="main.loading ? 'preload-fix' : ''"> -->
+<body ng-app="promethease" ng-controller="GenosController as main" docEvents ng-class="main.loading ? 'preload-fix' : ''">
+
+  
+  <!--[if lt IE 9]>
+	  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+<div class="wrapper">
+	<header ng-cloak headroom tolerance=10 classes="{pinned:'slide--reset',unpinned:'slide--up',initial:'slide'}" class="clearfix">
+	  <div class="genos-header">
+
+		<div class="view-loader loader" ng-cloak></div>
+
+		<span class="icon-menu controls-menu mobile-menu" ng-click="main.toggleControlMenu()"></span>
+
+		<!-- Search -->
+		<div class="genos-search" ng-cloak ng-class="{'mobile-menu': main.toggleSearch}">
+		 <span class="icon-search2" ng-click="main.toggleSearchMenu()"></span>
+		  <form ng-class="{active: main.toggleSearch}" ng-init="main.toggleSearch = false">
+			<div class="modal-arrow"></div>
+			<input class="search-input" placeholder="Search" ng-model="main.searchTerm" ng-change="main.searchGenos()" type="search" autocomplete="on">
+			<linear-progress progress-text="Indexing"></linear-progress> 
+		  </form>
+		</div>
+
+	  	<!-- logo -->
+		<div class="home">
+		  <div class="logo">
+			<a href="https://www.promethease.com">Promethease</a>
+		  </div>
+		</div>
+	
+		<div class="settings icon-cog"  ng-cloak modal-dialog-item data-index=6  tooltip-placement="bottom" tooltip-append-to-body="true" tooltip-popup-delay="1" tooltip="Settings"></div>
+
+		<div class="help-btn btn" ng-cloak tooltip-placement="bottom" tooltip-append-to-body="true" tooltip-popup-delay="1" tooltip="Help Mode" help-mode><span class="icon-question"></span><span>Help</span></div>
+	  </div>
+	  <div class="genos-controls" ng-class="{active: main.toggleControl}" ng-init="main.toggleControl = false">
+	  	<div class="content">
+		  	<div class="modal-arrow"></div>
+			 <!--Filters -->
+
+
+
+
+	  	<!-- Modes -->
+		<div class="genos-modes">
+		<div class="label" ng-cloak>Mode:</div>
+		  <ul class="mode-list" help-text="<div><b>All mode</b> = Show all results.</div><div><b>ClinVar mode</b> = Only shows ClinVar related results.</div>">
+			<li ng-cloak class="alt-mode-item" modal-dialog-item ng-attr-data-index="{{$index === 1 && 7 || -9999}}" ng-repeat="item in main.modeTypes" item-click="main.showMode(item.type, $index)" ng-init="main.modeIndex = 0" ng-class="{active: main.isModeActive(item.type)}"><span>{{item.title}}</span><span ng-if="$index === 1" class="caret mode-caret"></span></li>
+		  </ul>
+		</div>
+
+		<!-- View Types -->
+		<div class="genos-alt-view" ng-cloak>
+		  <ul class="alt-view-list" help-text="Allows you to switch between different views. <b>Table mode</b> helps you get printed result.">
+			<li ng-cloak class="alt-view-item" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip-popup-delay="1" tooltip="{{item.title}} View" ng-repeat="item in main.viewTypes" ng-click="main.showView(item.type, $index)" ng-init="main.viewIndex = 0" ng-class="{active: $index === main.viewIndex}"  ><span ng-class="{'icon-statistics': $index === 2}"></span><span>{{item.title}}</span></li>
+		  </ul>
+		</div>
+
+
+
+
+			<div class="genos-filter">
+			  
+			  <div class="label" ng-cloak>Filter by:</div>
+			  <ul class="filter-list">
+			  	<span ng-repeat="item in main.filterTypes" help-text="{{item.helpText}}">
+					<li ng-cloak modal-dialog-item data-index="{{$index}}" filter-activate="item.type" ng-class="{active: main.isActive(item.type)}">
+					    <span class="filter-icon" ng-class="{'icon-dna': $index === 0, 'icon-flow-branch': $index === 1}"></span>
+					    <span class="filter-title" data-title="{{item.title}}" data-small-title="{{item.stitle}}"></span>
+					</li>
+				</span>
+			  </ul>
+
+			   <!--Clinvar Dialog -->
+			  <modal-dialog class="clinvar-dialog" ng-cloak data-index=0 data-leftoffset="-12" show="main.filter.loadClinvarSuggestions()">
+				<typeahead placeholder="Select Clinvar Disease" index=0 class="tag-filter" term="main.filter.clinvarTerm" select="main.filter.selectClinvarSuggestion(item)" items="main.filter.clinvarCollection" show="main.filter.showClinvarSuggestion(term)">
+				  <perfect-scrollbar class="clinvar-cmb-list cmb-list loader" ng-class="{loaded: main.filter.clinvarCollection.length > 0}" wheel-propagation="false" wheel-speed="5" min-scrollbar-length="20">
+					<div class="cmb-item" ng-repeat="disease in main.filter.clinvarCollection" ng-init="disease.active = true" ng-style="{display: disease.active ? 'block' : 'none'}" typeahead-item="disease">
+					  <span class="item-name">{{disease.key}}</span>
+					  <span class="item-count">({{disease.c}})</span>
+					</div>
+				  </perfect-scrollbar>
+				</typeahead>
+			  </modal-dialog> 
+
+			   <!--Tags Dialog -->
+			  <modal-dialog class="tags-dialog" ng-cloak data-index=1 data-leftoffset="-32" show="main.filter.loadTagSuggestions()">
+				  <typeahead placeholder="Select Tag" index=1 class="tag-filter" term="main.filter.tagTerm" ng-cloak select="main.filter.selectTagSuggestion(item)" items="main.filter.tagCollection" show="main.filter.showTagSuggestion(term)">
+					<perfect-scrollbar class="tag-cmb-list cmb-list loader" ng-class="{loaded: main.filter.tagCollection.length > 0}" wheel-propagation="false" wheel-speed="5" min-scrollbar-length="20">
+					  <div class="cmb-item" ng-repeat="tag in main.filter.tagCollection" ng-init="tag.active = true" ng-style="{display: tag.active ? 'block' : 'none'}" typeahead-item="tag">
+						<span class="item-name">{{tag.key}}</span>
+						<span class="item-count">({{tag.c}})</span>
+					  </div>
+					</perfect-scrollbar>
+				  </typeahead>
+			  </modal-dialog> 
+
+			 <!--Magnitude Dialog -->
+			  <modal-dialog data-index=2 class="mag-dialog" data-leftoffset="-12">
+				<label>Magnitude </label>
+				<slider class="slider-holder" active="main.filter.isDragMagnitude" ng-model-low="main.filter.lowSelMagnitude" ng-model-high="main.filter.highSelMagnitude" floor="{{main.filter.minMagnitude}}" step="0.1" ceiling="{{main.filter.maxMagnitude}}" precision="1"></slider> 
+			  </modal-dialog> 
+
+			 <!--Reference Dialog -->
+			  <modal-dialog data-index=3 class="ref-dialog" data-leftoffset="-12">
+				<label>Reference </label>
+				<slider class="slider-holder" active="main.filter.isDragRef" ng-model-low="main.filter.lowSelRef" ng-model-high="main.filter.highSelRef" floor="{{main.filter.minRef}}" step="1" ceiling="{{main.filter.maxRef}}"></slider>
+			  </modal-dialog>
+
+			   <!--Clinvar Mode Dialog -->
+			   <modal-dialog data-index=7 class="clinvar-mode-dialog" data-leftoffset="-12">
+				<label  ng-init="main.filter.showPatho=false" ng-click="main.filter.showPatho = !main.filter.showPatho" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showPatho}"></div></span>Pathogenic</label> 
+				<label  ng-init="main.filter.showPPatho=false" ng-click="main.filter.showPPatho = !main.filter.showPPatho" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showPPatho}"></div></span>Probable-Pathogenic</label> 
+				<label  ng-init="main.filter.showPNPatho=false" ng-click="main.filter.showPNPatho = !main.filter.showPNPatho" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showPNPatho}"></div></span>Probable-Non-Pathogenic</label> 
+				<label  ng-init="main.filter.showNPatho=false" ng-click="main.filter.showNPatho = !main.filter.showNPatho" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showNPatho}"></div></span>Non-Pathogenic</label> 
+				<label  ng-init="main.filter.showUntested=false" ng-click="main.filter.showUntested = !main.filter.showUntested" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showUntested}"></div></span>Untested</label> 
+				<label  ng-init="main.filter.showOther=false" ng-click="main.filter.showOther = !main.filter.showOther" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showOther}"></div></span>Other</label> 
+				<label  ng-init="main.filter.showDrugR=false" ng-click="main.filter.showDrugR = !main.filter.showDrugR" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showDrugR}"></div></span>Drug Response</label>
+				<label  ng-init="main.filter.showHistoC=false" ng-click="main.filter.showHistoC = !main.filter.showHistoC" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showHistoC}"></div></span>Histocompatibility</label> 
+			  </modal-dialog>
+
+			 <!--SNP/Genoset Dialog -->
+			  <modal-dialog data-index=4 data-leftoffset="-12">
+				<label  ng-init="main.filter.showSNPs=true" ng-click="main.filter.showSNPs = !main.filter.showSNPs" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showSNPs}"></div></span>SNP</label> 
+
+				<label ng-init="main.filter.showGenosets=true" ng-click="main.filter.showGenosets = !main.filter.showGenosets" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showGenosets}"></div></span>Genosets</label> 
+			  </modal-dialog> 
+
+			 <!--Repute Dialog -->
+			  <modal-dialog data-index=5 data-leftoffset="-12">
+				<label class="clearfix" ng-init="main.filter.showGood=true" ng-click="main.filter.showGood = !main.filter.showGood" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showGood}"></div></span><span class="good">Good</span></label> 
+				<label class="clearfix" ng-init="main.filter.showBad=true" ng-click="main.filter.showBad = !main.filter.showBad" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showBad}"></div></span><span  class="bad">Bad</span></label> 
+				<label class="clearfix" ng-init="main.filter.showNotSet=true" ng-click="main.filter.showNotSet = !main.filter.showNotSet" ><span class="p-chkbox"><div ng-class="{'icon-checkmark': main.filter.showNotSet}"></div></span><span class="not-set">Not Set</span></label> 
+			  </modal-dialog>  
+			</div>
+
+			  <!--Sorting -->
+			<div class="genos-sort">
+			   <div class="label" ng-cloak>Sort by:</div>
+			   <ul class="sort-list">
+				 <li ng-cloak class="sort-item" ng-repeat="item in main.sortTypes" ng-init="main.sortIndex = 0" ng-click="main.sortBy(item.type, $index)" ng-class="{active: $index === main.sortIndex}" data-title="{{item.title}}" data-small-title="{{item.stitle}}"></li>
+				 <li ng-cloak ng-class="{active: main.isReverse}" tooltip="Reverse Sort" class="reverse-sort" tooltip-placement="left" tooltip-append-to-body="true" tooltip-popup-delay="1" ng-click="main.reverseSort()"><span class="icon-sort-amount-asc"></span></li>
+			  </ul>
+			</div>
+
+			<span class="vw-graph-btn-container">
+				<div class="btn vw-graph-btn" ng-click="main.showGraph()" ng-class="{active: main.doShowGraph}"><span class="icon-statistics"></span><span>View Graph</span></div>
+			</span>
+		</div>
+	 </div>
+
+	</header>
+
+	<!-- Settings Dialog -->
+	<modal-dialog ng-cloak data-index=6 class="settings-dialog" data-leftoffset="-9" data-topoffset="4">
+	  <p>Resets the database used by promethease. This database is stored on your browser and not on the server. Note: This will reload the page.</p>
+	  <button class="p-button" ng-click="main.reset()">Reload DB</button>
+	</modal-dialog>
+    
+    
+    <div class="report-header-page">
+            <p>
+<h1>Printing is a brand new feature in Promethease reports, <i>and still has bugs</i>. Please print to a PDF first, and then print that.</h1>
+            </p>
+
+           <p>
+<h2>This Promethease.com report was generated on <b>{{main.currentDate | date:'MMM-dd-yyyy'}}</b></h2>
+           </p>
+
+           <p>
+<h3>This printout does not contain all of the information in the electronic version.</h3> 
+           </p>
+
+           <p>
+<h3>This report is a snapshot in time, newer and more detailed information is available online.</h3>
+           </p>
+
+           <p>
+<h2>For more help see see http://www.snpedia.com/index.php/Promethease/Help/Printed</h2>
+           </p>
+<br>
+        </div>
+
+	<!-- Block View -->
+	<div class="block-wrapper clearfix" ng-show="main.viewIndex === 0 && main.noMatch === false && !main.doShowGraph" ng-cloak>
+		<div class="loader loader-top-scroll" ng-cloak></div>
+		<div class="genos-block clearfix" block-view>
+		</div>
+		<div class="loader loader-bottom-scroll" ng-cloak></div>
+		<div class="pagination-container" ng-cloak help-text="Allows you to <b>jump</b> to different pages." help-top></div>
+	</div>
+
+	<div class="genos-chart" ng-show="main.viewIndex === 0 && main.noMatch === false && !main.doShowGraph" ng-cloak help-text='<b>Shows Repute of all</b> the items in the current result'>
+	  <canvas chart class="repute-stats-chart" height="150" width="150"></canvas>
+	</div>
+
+	<div class="scroll-up-info" ng-show="main.viewIndex === 0 && main.noMatch === false && !main.doShowGraph" ng-cloak>
+		<span class="icon-arrow-down"></span>
+		<span class="text" ng-cloak>Scroll up to show the Previous Page</span>
+	</div>
+
+	<!-- Table View -->
+	<div class="table-wrapper" ng-cloak ng-if="main.startTable" ng-show="main.viewIndex === 1 && main.noMatch === false && !main.doShowGraph" ng-cloak>
+		<div table-view></div>
+	</div> 
+
+	<!-- Graph View-->
+	<div class="genos-graph" ng-cloak ng-controller="GenosGraphController as graphView" ng-if="main.startGraph" ng-show="main.doShowGraph && main.noMatch === false">
+		<div class="graph-objects">
+			<span class="graph-obj-title" tooltip-placement="right" tooltip-append-to-body="true" tooltip-popup-delay="1" tooltip="SNP/Genosets" ng-class="{active: graphView.showTitle}"><span class="icon-uniF765" ng-click="graphView.toggleTab('title')" ></span></span>
+			<span class="graph-obj-branch" tooltip-placement="right" tooltip-append-to-body="true" tooltip-popup-delay="1" tooltip="Tags" ng-class="{active: graphView.showTag}"><span class="icon-flow-branch" ng-click="graphView.toggleTab('tag')"></span></span>
+		</div>
+
+		<div class="node-list" ng-cloak ng-class="{active: graphView.showTitle || graphView.showTag}">
+			<button class="node-list-close" title="close" ng-click="graphView.hideNodeList()" tooltip-placement="right" tooltip-append-to-body="true" tooltip-popup-delay="1" tooltip="Close">×</button>
+
+			<div class="node-info" popover-append-to-body="true" ng-click="graphView.nodeInfoActive = !graphView.nodeInfoActive" ng-class="{active: graphView.nodeInfoActive}" popover-html-unsafe="{{graphView.nodeiteminfo}}" popover-placement="bottom"><span class="icon-info"></span></div>
+
+			<perfect-scrollbar class="node-title-list" ng-show="graphView.showTitle && !graph.showTag" wheel-propagation="false" wheel-speed="5" min-scrollbar-length="20" ng-cloak suppressScrollX=true>
+			  <div ng-repeat="item in graphView.graph.nodes" class="node-title-item" ng-if="item.tag === false" ng-mouseover="graphView.showNode(item)" ng-mouseout="graphView.resetNodes()" ng-click="graphView.setNode(item, item.id)" ng-class="{active: graphView.nodeItemId === item.id}">
+			      <span class="label-cell" ng-style="{'background-color': item.freqcolor}">
+			        {{item.label}}
+			      </span>
+		      </div>
+			</perfect-scrollbar>
+
+			<perfect-scrollbar class="node-tag-list" ng-show="graphView.showTag && !graph.showTitle" wheel-propagation="false" wheel-speed="5" min-scrollbar-length="20" ng-cloak suppressScrollX=true>
+			  	<div ng-repeat="item in graphView.graph.nodes" class="node-tag-item" ng-if="item.tag === true" ng-mouseover="graphView.showNode(item)" ng-mouseout="graphView.resetNodes()" ng-click="graphView.setNode(item, item.id)" ng-class="{active: graphView.nodeItemId === item.id}">
+				 	<span class="label-cell">
+						<a class="node-label">
+						  {{item.label}}
+						</a>
+					</span>
+					<span class="value-cell">
+						<div class="repute-stack">
+						  <span class="good-stack" ng-style="{width: (item.good/item.total * 100)+'%'}">
+						  </span>
+						  <span class="notset-stack" ng-style="{width: (item.notSet/item.total * 100)+'%'}">
+						  </span>
+						  <span class="bad-stack" ng-style="{width: (item.bad/item.total * 100)+'%'}">
+						  </span>
+						</div>
+					</span>
+				</div>
+			</perfect-scrollbar>
+		</div>
+
+		<graph-layout ng-cloak></graph-layout>
+
+		<div class="node-controls" ng-cloak>
+			<div class="icon-zoomin zoom-control" ng-click="graphView.zoomIn()"></div>
+			<div class="icon-search zoom-control" ng-click="graphView.resetView()"></div>
+			<div class="icon-zoomout zoom-control" ng-click="graphView.zoomOut()"></div>
+			<div class="prettify-btn btn" ng-click="graphView.prettifyGraph()"><span ng-class="{'icon-stop': graphView.prettify, 'icon-play': !graphView.prettify}"></span><span class="text" ng-bind="graphView.prettify ? 'Stop Layout': 'Start Layout'">Start Layout</span></div>
+			<div class="graph-info" ng-click="graphView.graphInfoActive = !graphView.graphInfoActive" ng-class="{active: graphView.graphInfoActive}" popover-html-unsafe="{{graphView.information}}" popover-placement="top"><span class="icon-info"></span><span class="text">Info</span></div>
+		</div>
+	</div>
+
+
+	<!-- Overlay -->
+	<overlay-dialog ng-cloak show="main.showBoring" dialog-title="Set Boring" ok="main.setBoring()" cancel="main.resetBoring()" ng-class="{'hidden-fix': !main.showBoring
+	}">
+	  <p>
+		It will set <b>{{main.boringTitle}}</b> as Magnitude: <b>0</b> and Repute: <b>Good</b>, which means <b>Boring</b>.
+	  </p>
+	  <div class="boring-term">
+		<input type="radio" class="p-radio" ng-model="main.boring" value="local" checked/>
+		<span ng-click="main.boring = 'local'">Make the changes locally.</span>
+	  </div>
+	  <div class="boring-term"> 
+		<input type="radio" class="p-radio" ng-model="main.boring" value="remote"/>
+		<span class="boring-warn" ng-click="main.boring = 'remote'">I do understand and want to make a <b>real</b> change to SNPedia itself.</span>
+	  </div>
+	  <input type='text' ng-model="main.boringInput" class='boring-input' ng-show="main.boring === 'remote'" placeholder="Type YES to proceed with this change"/>
+	  <span class="boring-error" ng-show="main.boringError && main.boring !== 'local'" ng-bind="main.boringError"></span>
+	  <span class="loader-bg loader boring-loader" ng-show="main.boringLoader"></span>
+	</overlay-dialog>
+
+	<!-- When no match found -->
+	<div class="no-match" ng-cloak  ng-init="self.noMatch = false" ng-show="main.noMatch === true">
+	  No match found <span ng-if="main.searchTerm"> for </span><span class="match-text" ng-bind="main.searchTerm"></span>
+	</div>
+
+	<div class="preloader-overlay" ng-class="main.loading ? '' : 'none'">
+		<div class="preloader-dialog" style='opacity: 0;'>
+<!--
+			<img class="preloader-img" src="img/logo.png" alt="logo"/>
+-->
+                        <img class="preloader-img" src="https://s3.amazonaws.com/promethease-shared/data/v/8/img/logo.png"  alt="logo"/>
+
+
+			<span class="preloader-text">
+				<span>Loading</span>
+				<span class="preloader-type">Data</span>
+				<span class="preloader-perc"></span>
+			</span>
+		</div>
+	</div>
+   
+   <!-- Welcome Popup --> 
+    <div class="preloader-overlay" ng-class="main.welcomeScreen ? '' : 'none'">		
+        <div class="welcome-dialog preloader-dialog show">
+        	<h2>Welcome to your Promethease report</h2>
+            <p>
+<h3>This report is large, complicated and may contain software bugs</h3>
+           </p>
+
+<p>
+The information provided in my Promethease report is based on <a href="http://snpedia.com/index.php/SNPedia">SNPedia.com</a> and is for educational and research purposes only. 
+</p>
+
+<p>
+Most published reports about DNA variations explain only a small part of the heritability of a trait, and they also don&apos;t take into account how different variants might interact. In addition, published reports typically ignore environmental, dietary, microbial, medical history and lifestyle factors, any or all of which may well affect my true risk for any trait or disease.
+</p>
+
+<p>
+The reader is strongly encouraged to discuss these summaries and the underlying data with a doctor, genetic counselor or other health-care provider prior to making any medical or reproductive decisions and is advised to confirm any significant finding discovered in part through the use of Promethease by an independent, clinically validated test for use in connection with the medical trait in question.
+</p>
+
+           <p>
+If you don't yet know about <a href="http://www.snpedia.com/index.php/Promethease/Orientation">orientation</a> there is a lot of new terminology you'll need to learn to better <a href="http://www.snpedia.com/index.php/Promethease/Learn_More">understand your report</a>. When you're ready to see the details of your report click the Next button.
+          </p>
+
+           <p>
+<div class="btn" ng-click="main.hideWelcomeScreen()"><span>Next</span></div>
+           </p>
+
+           
+		</div> 
+	</div>
+    
+    <!-- //End -->
+
+	<div class="help-popover popover bottom">
+		<div class="arrow"></div>
+		<div class="popover-inner">
+			<div class="popover-content clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<!-- Data -->
+<!--[if gte IE 9]><!-->
+<script type="text/javascript" src="https://promethease-ondemand.s3.amazonaws.com/data/v/3/zlib/zlib_and_gzip.min.js"></script>
+<script>!(typeof(Zlib) === 'undefined') || document.write('<script src="ui2libs/zlib/zlib_and_gzip.min.js">\x3C/script>')</script>
+<!--<script type="text/javascript" src="js/zlib/zlib_and_gzip.min.js"></script> -->
+<script type="text/javascript" id="genos-script">
+	var mygenos = new Array ();
+
+	//show preloader image on load
+	document.querySelector('.preloader-img').onload = function() {
+		window.setTimeout(function() {
+			document.querySelector('.preloader-dialog').classList.add('show');
+		}, 1);
+	};
+
+	var uintToString = function (uintArray) {
+	    var encodedString = String.fromCharCode.apply(null, uintArray),
+	        decodedString = decodeURIComponent(escape(encodedString));
+	    encodedString = null;
+	    return decodedString;
+	};
+
+	var decompressString = function (s) {
+	  var compressData = atob(s),
+	  	compressData2 = [];
+
+	  for(var i=0, cL = compressData.length; i < cL; i++) {
+	  	compressData2.push(compressData[i].charCodeAt(0));
+	  }
+
+	  var inflate = new Zlib.Inflate(compressData2);
+	  var output = JSON.parse(uintToString(inflate.decompress()));
+	  compressData = null;
+	  inflate = null;
+	  compressData2 = null;
+	  return output;
+	};
+
+	var total = 20000, // count set by server code
+		isArray = function(obj) {
+		  if (!obj || obj.setInterval) { return false; }
+		  if (Array.isArray && Array.isArray(obj)) { return true; }
+		  if ((obj.length !== undefined) && 'object'===typeof obj) { return true; }
+		  return false;
+		};
+		setPreloaderPerc = function() {
+			var args = Array.prototype.slice.call(arguments);
+
+			if(!args.length) return;
+
+			var item = args[0],
+				type = args[2] ? args[2] : null,
+				itemCount = 0,
+				item;
+
+			total = args[1] ? args[1] : total;
+
+			if(isArray(item)) {
+				itemCount = item.length;
+			}
+			else if(typeof +item === 'number') {
+				itemCount = +item;
+			}
+			else {
+				return;
+			}
+
+			if(type)
+				document.querySelector('.preloader-type').innerHTML = type;
+					
+			document.querySelector('.preloader-perc').innerHTML = '(' + (Math.ceil((itemCount/total) * 100) || 1) + '%)';
+		};
+
+//Modified this part, since app.js cleans up the globals placed here (mygenos and rsinfo), it is placed at the bottom
+//also, jquery is a part of app.js
+var $ = {};
+var breaker = {};
+
+$.each = function(obj, iterator, context) {
+	if (obj == null) return obj;
+	  for (var i = 0, length = obj.length; i < length; i++) {
+	    if (iterator.call(context, obj[i], i, obj) === breaker) return;
+	  }
+	return obj;
+};
+
+$.extend = function(obj) {
+	$.each(Array.prototype.slice.call(arguments, 1), function(source) {
+	  if (source) {
+	    for (var prop in source) {
+	      obj[prop] = source[prop];
+	    }
+	  }
+	});
+	return obj;
+};
+{% endraw %}
+{{ mygenos }}
+{{ rsinfo }}
+
+window.mygenos = mygenos;
+window.rsinfo = rsinfo;
+delete Zlib;
+</script>
+
+
+<!--<script>!(typeof(sigma) === 'undefined') || document.write('<script src="js/app.min.js">\x3C/script>')</script>-->
+<script>!(typeof(sigma) === 'undefined') || document.write('<script src="https://promethease-shared.s3.amazonaws.com/data/v/9/js/app.min.js">\x3C/script>')</script>
+
+<!--<![endif]-->
+<div id="promethease-main-css-test"> </div>
+</body>
+</html>
