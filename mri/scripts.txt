@@ -1,0 +1,2 @@
+Merge a bunch of images into a tiled one:
+montage -mode concatenate -tile 5x dir/ALABALA* ALABALA.png
